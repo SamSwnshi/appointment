@@ -85,11 +85,15 @@ export const getAvailabeTimeSlots = async (req, res) => {
       })
     );
 
-    const availabeSlots = slots.filter((slot) => !bookedSlots.includes(slot));
+    const availabeSlots = slots.filter((slot) => !bookedSlots.has(slot));
+    const readableSlots = availabeSlots.map(slot =>
+        slot.toLocaleString([], { hour: '2-digit', minute: '2-digit', hour12: true })
+      );
+  
 
-    return res.status(200).json({ availabeSlots });
+      return res.status(200).json({ availabeSlots: readableSlots });
   } catch (error) {
-    console.error("Error fetching available slots:", err);
+    console.error("Error fetching available slots:", error.message);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
