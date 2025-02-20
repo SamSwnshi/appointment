@@ -185,7 +185,7 @@ Ensure the `JWT_SECRET` in your `.env` file is correct and consistent.
 
 ## 👨‍💻 Contributors  
 
-- **Your Name** ((https://github.com/SamSwnshi))  
+- **Your Name** (Sameer Suryawnshi)  
 
 ---
 
