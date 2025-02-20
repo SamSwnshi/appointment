@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const navigate = useNavigate(); // Initialize navigation
+  const navigate = useNavigate(); 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,17 +24,17 @@ const Login = () => {
     try {
       const response = await api.post("/login", formData);
 
-      toast.success("Login Successful! Redirecting to Home...");
+      toast.success("Login Successful! Redirecting to DoctorList...");
       console.log("Login Successful:", response.data);
 
-      // Store token in localStorage (if received)
+   
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
       }
 
-      // Redirect to /home after 2 seconds
+  
       setTimeout(() => {
-        navigate("/home");
+        navigate("/doctor-list");
       }, 2000);
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed");
