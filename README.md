@@ -91,7 +91,7 @@ npm install
 
 ##### Server `.env` Example  
 ```
-PORT=5000
+PORT=8000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 ```
@@ -185,7 +185,7 @@ Ensure the `JWT_SECRET` in your `.env` file is correct and consistent.
 
 ## 👨‍💻 Contributors  
 
-- **Your Name** ([@yourgithub](https://github.com/yourgithub))  
+- **Your Name** ([@yourgithub](Sameer Suryawanshi))  
 
 ---
 
