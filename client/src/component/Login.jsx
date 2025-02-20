@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../config/api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
+  const navigate = useNavigate(); // Initialize navigation
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -17,21 +20,24 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     try {
       const response = await api.post("/login", formData);
 
+      toast.success("Login Successful! Redirecting to Home...");
       console.log("Login Successful:", response.data);
-      alert("Login Successful!");
 
       // Store token in localStorage (if received)
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
       }
 
+      // Redirect to /home after 2 seconds
+      setTimeout(() => {
+        navigate("/home");
+      }, 2000);
     } catch (error) {
-      setError(error.response?.data?.message || "Login failed");
+      toast.error(error.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -41,8 +47,6 @@ const Login = () => {
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
-
-        {error && <p className="text-red-500 text-center">{error}</p>}
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -90,6 +94,8 @@ const Login = () => {
           </button>
         </form>
       </div>
+
+      <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );
 };
