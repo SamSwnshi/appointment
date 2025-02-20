@@ -1,0 +1,1 @@
+import Doctor from "../models/doctor.models.js";
