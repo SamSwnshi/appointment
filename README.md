@@ -2,7 +2,7 @@
 
 ## 📌 Introduction  
 
-Samswnshi Appointment System is a full-stack web application that allows users to book, manage, and track medical appointments. The application provides authentication, doctor listings, and appointment scheduling functionalities.  
+Appointment System is a full-stack web application that allows users to book, manage, and track medical appointments. The application provides authentication, doctor listings, and appointment scheduling functionalities.  
 
 The project is divided into two main parts:  
 
