@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import cookieparser from "cookie-parser";
 import dotenv from "dotenv";
 import config from "./db/config.js";
 
@@ -14,7 +13,7 @@ dotenv.config()
 const port = process.env.PORT || 8000;
 
 app.use(cors());
-app.use(cookieparser())
+app.use(express.json())
 
 app.use('/api/doctors',doctorRoutes)
 app.use('/api/appointments',appointmentRoutes)
