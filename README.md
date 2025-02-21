@@ -6,12 +6,14 @@ Appointment System is a full-stack web application that allows users to book, ma
 
 The project is divided into two main parts:  
 
-- **Client (Frontend):** Built with React and Vite.  
-- **Server (Backend):** Built with Node.js, Express, and MongoDB.  
+- **Client (Frontend):** Built with React and Vite, deployed on **Vercel**.  
+- **Server (Backend):** Built with Node.js, Express, and MongoDB, deployed on **Render**.  
+
+Live App: [Appointment System](https://appointment-sameer-suryawanshis-projects.vercel.app/)  
 
 ---
 
-## 📖 Table of Contents  
+## 📚 Table of Contents  
 
 - [Introduction](#-introduction)  
 - [Features](#-features)  
@@ -36,6 +38,7 @@ The project is divided into two main parts:
 ✅ Protected Routes for Authentication  
 ✅ RESTful API with Express.js  
 ✅ MongoDB Database Integration  
+✅ Fully Deployed Backend (Render) and Frontend (Vercel)  
 
 ---
 
@@ -65,13 +68,13 @@ Ensure you have the following installed:
 
 ### **Setup Instructions**  
 
-#### 1️⃣ Clone the Repository  
+#### 1⃣ Clone the Repository  
 ```sh
 git clone https://github.com/your-repo/samswnshi-appointment.git
 cd samswnshi-appointment
 ```
 
-#### 2️⃣ Install Dependencies  
+#### 2⃣ Install Dependencies  
 
 ##### Client  
 ```sh
@@ -85,7 +88,7 @@ cd ../server
 npm install
 ```
 
-#### 3️⃣ Set Up Environment Variables  
+#### 3⃣ Set Up Environment Variables  
 
 - Create a `.env` file inside both `client/` and `server/` directories and add the necessary configuration values.  
 
@@ -98,10 +101,10 @@ JWT_SECRET=your_secret_key
 
 ##### Client `.env` Example  
 ```
-VITE_API_BASE_URL=http://localhost:5000
+VITE_API_BASE_URL=https://your-backend-render-url.onrender.com
 ```
 
-#### 4️⃣ Run the Application  
+#### 4⃣ Run the Application  
 
 ##### Start Backend  
 ```sh
@@ -189,6 +192,7 @@ Ensure the `JWT_SECRET` in your `.env` file is correct and consistent.
 
 ---
 
-## 📜 License  
+## 📛 License  
 
 This project is licensed under the **MIT License**.  
+
