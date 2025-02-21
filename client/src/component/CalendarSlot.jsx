@@ -13,13 +13,20 @@ const CalendarSlotView = ({ doctorId, onSelectDate }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Retrieve booked slots from localStorage
+    const storedBookings = JSON.parse(localStorage.getItem("bookedSlots")) || {};
+    if (storedBookings[selectedDate.toISOString().split("T")[0]]) {
+      setBookedSlots(storedBookings[selectedDate.toISOString().split("T")[0]]);
+    }
+  }, [selectedDate]);
+
+  useEffect(() => {
     const fetchSlots = async () => {
       try {
         const result = await api.get(`/doctors/${doctorId}/slots`, {
           params: { date: selectedDate.toISOString().split("T")[0] },
         });
         setAvailableSlots(result.data.slots.available || []);
-        setBookedSlots(result.data.slots.booked || []);
         toast.success("Slots loaded successfully!");
       } catch (error) {
         console.error("Error fetching slots:", error);
@@ -45,7 +52,22 @@ const CalendarSlotView = ({ doctorId, onSelectDate }) => {
 
   const handleBooking = () => {
     if (selectedSlot) {
-      toast.success("Proceeding to booking...");
+      // Retrieve stored booked slots
+      const storedBookings = JSON.parse(localStorage.getItem("bookedSlots")) || {};
+
+      // Update booked slots for the selected date
+      if (!storedBookings[selectedDate.toISOString().split("T")[0]]) {
+        storedBookings[selectedDate.toISOString().split("T")[0]] = [];
+      }
+      storedBookings[selectedDate.toISOString().split("T")[0]].push(selectedSlot);
+
+      // Save back to localStorage
+      localStorage.setItem("bookedSlots", JSON.stringify(storedBookings));
+
+      // Update the state to reflect the change
+      setBookedSlots([...bookedSlots, selectedSlot]);
+
+      toast.success("Slot booked successfully!");
       navigate("/book", { state: { doctorId, date: selectedDate, slot: selectedSlot } });
     }
   };
@@ -103,7 +125,7 @@ const CalendarSlotView = ({ doctorId, onSelectDate }) => {
         <button
           onClick={handleBooking}
           className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition"
-          disabled={!selectedSlot}
+          disabled={!selectedSlot || bookedSlots.includes(selectedSlot)}
         >
           Proceed to Book
         </button>
