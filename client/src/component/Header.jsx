@@ -7,18 +7,17 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token")); // Initialize state correctly
 
   useEffect(() => {
-
     const checkAuth = () => {
       const token = localStorage.getItem("token");
-      setIsAuthenticated(!!token);
+      setIsAuthenticated(!!token); // Update state when token changes
     };
 
     checkAuth(); 
 
-  
+    // Listen for changes in localStorage
     window.addEventListener("storage", checkAuth);
 
     return () => {
@@ -48,7 +47,7 @@ const Header = () => {
 
   return (
     <div className="relative flex justify-between items-center px-6 py-6 bg-blue-700 text-white shadow-md tracking-wider">
-      <h1 className="text-2xl font-bold">Prenatal Care</h1>
+      <h1 className="text-2xl font-bold">Appointment App</h1>
 
       {!isAuthenticated ? (
         <div className="absolute top-4 right-6 space-x-4">

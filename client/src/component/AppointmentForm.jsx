@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import api from "../config/api";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AppointmentForm = () => {
   const location = useLocation();
@@ -30,30 +32,21 @@ const AppointmentForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Frontend validation
     if (!formData.doctorId || !formData.date || !formData.slot || !formData.appointmentType || !formData.patientName) {
-      alert("Please provide all required fields.");
+      toast.error("Please provide all required fields.");
       return;
     }
 
     try {
-      console.log("Submitting form data:", formData); // Log the payload
+      console.log("Submitting form data:", formData);
       const result = await api.post("/appointments/create", formData);
       console.log("Appointment created successfully:", result.data);
-      navigate('/appointments'); // Redirect to the appointments page
+
+      toast.success("Appointment booked successfully!");
+      setTimeout(() => navigate('/appointments'), 2000);
     } catch (error) {
       console.error("Error booking appointment:", error);
-      if (error.response) {
-        // Server responded with a status other than 2xx
-        console.error("Response data:", error.response.data);
-        console.error("Response status:", error.response.status);
-      } else if (error.request) {
-        // No response was received
-        console.error("No response received:", error.request);
-      } else {
-        // Something else caused the error
-        console.error("Error message:", error.message);
-      }
+      toast.error("Failed to book appointment. Please try again.");
     }
   };
 
@@ -70,9 +63,7 @@ const AppointmentForm = () => {
             required
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="" disabled>
-              Select Appointment Type
-            </option>
+            <option value="" disabled>Select Appointment Type</option>
             <option value="Routine Check-Up">Routine Check-Up</option>
             <option value="Ultrasound">Ultrasound</option>
             <option value="Consultation">Consultation</option>

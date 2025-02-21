@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../config/api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AppointmentList = () => {
   const [appointments, setAppointments] = useState([]);
@@ -9,11 +11,11 @@ const AppointmentList = () => {
     const fetchAppointments = async () => {
       try {
         const result = await api.get("/appointments");
-        console.log(result.data.getAppointment)
-        setAppointments(result.data.getAppointment
-            || []);
+        setAppointments(result.data.getAppointment || []);
+        toast.success("Appointments loaded successfully!");
       } catch (error) {
         console.error("Error fetching appointments:", error);
+        toast.error("Failed to load appointments.");
       }
     };
     fetchAppointments();
@@ -23,8 +25,10 @@ const AppointmentList = () => {
     try {
       await api.delete(`/appointments/${id}`);
       setAppointments(appointments.filter((appt) => appt._id !== id));
+      toast.success("Appointment deleted successfully!");
     } catch (error) {
       console.error("Error deleting appointment:", error);
+      toast.error("Failed to delete appointment.");
     }
   };
 
@@ -46,8 +50,10 @@ const AppointmentList = () => {
         appt._id === editingAppointment._id ? updatedAppointment : appt
       ));
       setEditingAppointment(null);
+      toast.success("Appointment updated successfully!");
     } catch (error) {
       console.error("Error updating appointment:", error);
+      toast.error("Failed to update appointment.");
     }
   };
 
@@ -66,6 +72,7 @@ const AppointmentList = () => {
                 className="flex justify-between items-center p-4 bg-gray-50 border border-gray-300 rounded-lg"
               >
                 <div>
+                  <p className="font-bold">{appt.patientName}</p>
                   <p className="font-semibold">{appt.appointmentType}</p>
                   <p className="text-gray-600">
                     {new Date(appt.date).toLocaleString()}
@@ -129,6 +136,7 @@ const AppointmentList = () => {
           </form>
         )}
       </div>
+      <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );
 };

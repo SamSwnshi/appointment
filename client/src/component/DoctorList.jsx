@@ -8,9 +8,8 @@ const DoctorList = ({ onSelectDoctor }) => {
     const fetchDoctors = async () => {
       try {
         const result = await api.get("/doctors");
-        console.log("API Response:", result.data); // Debugging
-
-        // ✅ Extract the doctors array
+        console.log("API Response:", result.data);
+      
         setDoctors(Array.isArray(result.data.doctors) ? result.data.doctors : []);
       } catch (error) {
         console.error("Error fetching doctors:", error);
