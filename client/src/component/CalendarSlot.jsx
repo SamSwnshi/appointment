@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import api from "../config/api";
 import { format, addDays } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 const CalendarSlotView = ({ doctorId, onSelectDate }) => {
   const [slots, setSlots] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSlots = async () => {
@@ -23,6 +26,18 @@ const CalendarSlotView = ({ doctorId, onSelectDate }) => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
     onSelectDate(date);
+  };
+
+  const handleSlotSelect = (slot) => {
+    setSelectedSlot(slot);
+    console.log("Selected slot:", slot); // Log the selected slot
+  };
+
+  const handleBooking = () => {
+    if (selectedSlot) {
+      console.log("Navigating with slot:", selectedSlot); // Log the slot being passed
+      navigate('/book', { state: { doctorId, date: selectedDate, slot: selectedSlot } });
+    }
   };
 
   const renderDays = () => {
@@ -48,7 +63,7 @@ const CalendarSlotView = ({ doctorId, onSelectDate }) => {
     <div className="h-screen w-screen flex flex-col justify-center items-center bg-gray-100">
       <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-8">
         <h2 className="text-2xl font-bold mb-6 text-center">Select a Date</h2>
-        
+
         {/* Date Selector */}
         <div className="flex justify-between space-x-3 mb-8 overflow-x-auto">
           {renderDays()}
@@ -66,14 +81,24 @@ const CalendarSlotView = ({ doctorId, onSelectDate }) => {
             {slots.map((slot, index) => (
               <button
                 key={index}
-                className="p-4 bg-blue-100 rounded-lg text-center text-lg cursor-pointer 
-                hover:bg-blue-300 transition shadow-md"
+                onClick={() => handleSlotSelect(slot)}
+                className={`p-4 rounded-lg text-center text-lg cursor-pointer transition shadow-md
+                  ${selectedSlot === slot ? "bg-green-300" : "bg-blue-100 hover:bg-blue-300"}`}
               >
                 {slot}
               </button>
             ))}
           </div>
         )}
+
+        {/* Booking Button */}
+        <button
+          onClick={handleBooking}
+          className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition"
+          disabled={!selectedSlot}
+        >
+          Proceed to Book
+        </button>
       </div>
     </div>
   );

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import api from "../config/api";
-
+import { useNavigate } from "react-router-dom";
 const DoctorList = ({ onSelectDoctor }) => {
   const [doctors, setDoctors] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
@@ -19,6 +19,11 @@ const DoctorList = ({ onSelectDoctor }) => {
     fetchDoctors();
   }, []);
 
+  const handleDoctorSelect = (doctorId) => {
+    onSelectDoctor(doctorId);
+    navigate('/slots'); 
+  };
+
   return (
     <div className="p-4 bg-gray-100 rounded-lg shadow-md">
       <h2 className="text-xl font-bold mb-4">Select a Doctor</h2>
@@ -30,7 +35,7 @@ const DoctorList = ({ onSelectDoctor }) => {
           {doctors.map((doctor) => (
             <li
               key={doctor._id}
-              onClick={() => onSelectDoctor(doctor._id)}
+              onClick={() => handleDoctorSelect(doctor._id)}
               className="p-3 bg-white rounded-lg shadow hover:bg-blue-100 cursor-pointer"
             >
               <h3 className="font-semibold">{doctor.name}</h3>
