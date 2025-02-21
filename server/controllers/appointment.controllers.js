@@ -1,5 +1,5 @@
 import Appointment from "../models/appointment.models.js";
-
+import Doctor from "../models/doctor.models.js";
 export const getAllAppointment = async (req, res) => {
   try {
     const getAppointment = await Appointment.find().populate(
@@ -30,18 +30,20 @@ export const getAppointmentById = async (req, res) => {
   } catch (error) {}
 };
 
+
 export const createAppointment = async (req, res) => {
-  const { doctorId, date, duration, appointmentType, patientName, notes } =
-    req.body;
+  const { doctorId, date, duration, appointmentType, patientName, notes } = req.body;
+
+  console.log("Received appointment request:", req.body); // Debugging log
+
   if (!doctorId || !date || !duration || !appointmentType || !patientName) {
-    return res
-      .status(400)
-      .json({ message: "Please provide all required fields." });
+    return res.status(400).json({ message: "Please provide all required fields." });
   }
+
   try {
     const newAppointment = new Appointment({
       doctorId,
-      date,
+      date: new Date(date),
       duration,
       appointmentType,
       patientName,
@@ -54,10 +56,12 @@ export const createAppointment = async (req, res) => {
       data: appointment,
     });
   } catch (error) {
-    console.error("Error creating doctor:", error);
+    console.error("Error creating appointment:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
 export const updateAppointment = async (req, res) => {
   const { doctorId, date, duration, appointmentType, patientName, notes } =
     req.body;
